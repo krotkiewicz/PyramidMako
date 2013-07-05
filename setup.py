@@ -14,10 +14,20 @@ requires = [
     'pyramid_debugtoolbar',
     'zope.sqlalchemy',
     'waitress',
-    ]
+    'beautifulsoup4',
+    'mock',
+    'lxml',
+    'nokaut',
+    'allegro',
+]
+
+depedency_list = [
+    'https://github.com/waldest/nokaut/archive/master.tar.gz#egg=nokaut',
+    'https://github.com/waldest/allegro/archive/master.tar.gz#egg=allegro'
+]
 
 setup(name='PyramidMako',
-      version='0.0',
+      version='0.1',
       description='PyramidMako',
       long_description=README + '\n\n' + CHANGES,
       classifiers=[
@@ -25,7 +35,7 @@ setup(name='PyramidMako',
         "Framework :: Pyramid",
         "Topic :: Internet :: WWW/HTTP",
         "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
-        ],
+      ],
       author='',
       author_email='',
       url='',
@@ -34,6 +44,7 @@ setup(name='PyramidMako',
       include_package_data=True,
       zip_safe=False,
       test_suite='pyramidmako',
+      dependency_links=depedency_list,
       install_requires=requires,
       entry_points="""\
       [paste.app_factory]
