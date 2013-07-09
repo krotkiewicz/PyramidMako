@@ -1,8 +1,9 @@
-import datetime
+#import datetime
 #from pyramid.response import Response
 from pyramid.httpexceptions import HTTPFound
 from pyramid.view import view_config, forbidden_view_config
-from pyramid.security import remember, forget
+from pyramid.security import remember, forget, NO_PERMISSION_REQUIRED
+
 from .models import DBSession, HistoryModel, User
 from nokaut.lib import nokaut_api, NokautError
 from lib.allegro_modu1 import FindEroor, ConnectionError, result
@@ -13,8 +14,11 @@ def my_view(request):
     return {}
 
 
-@view_config(route_name='login', renderer='pyramidmako:templates/mytemplate_login.mako')
-@forbidden_view_config(renderer='pyramidmako:templates/mytemplate_login.mako')
+@view_config(
+    route_name='login',
+    renderer='pyramidmako:templates/mytemplate_login.mako',
+    permission=NO_PERMISSION_REQUIRED,
+)
 def log_view(request):
     if not request.method == 'POST':
         return {}
@@ -36,7 +40,11 @@ def logout_view(request):
     return HTTPFound(location=request.route_url('login'), headers=headers)
 
 
-@view_config(route_name='register', renderer='pyramidmako:templates/mytemplate_register.mako')
+@view_config(
+    route_name='register',
+    renderer='pyramidmako:templates/mytemplate_register.mako',
+    permission=NO_PERMISSION_REQUIRED,
+)
 def reg_view(request):
     if not request.method == 'POST':
         return {}

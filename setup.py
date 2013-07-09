@@ -27,7 +27,7 @@ depedency_list = [
 ]
 
 setup(name='PyramidMako',
-      version='0.1',
+      version='1',
       description='PyramidMako',
       long_description=README + '\n\n' + CHANGES,
       classifiers=[

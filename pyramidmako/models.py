@@ -1,20 +1,24 @@
-from sqlalchemy import (
-    Column,
-    Integer,
-    Text,
-    Float)
+import os
 
+from hashlib import sha1
+from sqlalchemy.exc import IntegrityError
+from pyramid.security import Allow, Everyone
+from sqlalchemy import Column, Integer, Text, Float
 from sqlalchemy.ext.declarative import declarative_base
 
-from sqlalchemy.orm import (
-    scoped_session,
-    sessionmaker,
-)
-
+from sqlalchemy.orm import scoped_session, sessionmaker
 from zope.sqlalchemy import ZopeTransactionExtension
 
 DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 Base = declarative_base()
+
+
+class RootFactory(object):
+    __acl__ = [
+
+    ]
+    def __init__(self, request):
+        pass
 
 
 class HistoryModel(Base):
