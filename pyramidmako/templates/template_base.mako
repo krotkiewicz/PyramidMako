@@ -11,28 +11,38 @@
     <div id="container">
         <div class="main_box">
             <div class="head">
-                <div class="logo_img"><img src="${request.static_path('pyramidmako:static/img/logo.png')}" alt="logo"></div>
+                <a href='/'>
+                    <div class="logo_img"><img src="${request.static_path('pyramidmako:static/img/logo.png')}" alt="logo"></div>
+                </a>
                 <div class="logo_txt">
                     Compare products
                     <div class="logo_txt_small">We will help you find and compare products</div>
                 </div>
+
                 <div class="box_login">
-                    <a class="btn btn-success" href="#register">Register</a>
-                    <a class="btn" href="#login">Login</a>
+                    % if request.user:
+                        <a class="btn" href="/logout">Logout</a>
+                        <a class="btn">${request.user.name}</a>
+                    % else:
+                    <a class="btn btn-success" href='/reg'>Register</a>
+                    <a class="btn" href="/log">Login</a>
+                    % endif
                 </div>
             </div>
             <div class="middle">
-                <div class="box_search">
-                    <form action="/res">
-                        <div class="search">
-                            <input type="text" name = "product" value=""/>
-                        </div>
-                        <button class="btn_search btn btn-primary" type=submit>Search</button>
-                    </form>
-                    <a class="btn" href="#">Historia wyszukiwania</a>
-                    <div class="clear"></div>
-                </div>
-                ${self.body()}
+                <%block name="header">
+                    <div class="box_search">
+                        <form action="/res">
+                            <div class="search">
+                                <input type="text" name = "product" value=""/>
+                            </div>
+                            <button class="btn_search btn btn-primary" type=submit>Search</button>
+                        </form>
+                        <a class="btn" href="#">Historia wyszukiwania</a>
+                        <div class="clear"></div>
+                    </div>
+                </%block>
+                <%block name="result"/>
             </div>
         </div>
         <div class="footer">

@@ -4,16 +4,9 @@ import transaction
 
 from sqlalchemy import engine_from_config
 
-from pyramid.paster import (
-    get_appsettings,
-    setup_logging,
-    )
+from pyramid.paster import get_appsettings, setup_logging
 
-from ..models import (
-    DBSession,
-    MyModel,
-    Base,
-    )
+from ..models import DBSession, HistoryModel, User, Base
 
 
 def usage(argv):
@@ -33,5 +26,6 @@ def main(argv=sys.argv):
     DBSession.configure(bind=engine)
     Base.metadata.create_all(engine)
     with transaction.manager:
-        model = MyModel(name='one', value=1)
-        DBSession.add(model)
+        model = HistoryModel(name='', price_allegro=0, url_allegro='', price_nokaut=0, url_nokaut='')
+        model_user = User(name='', password='')
+        DBSession.add(model, model_user)
