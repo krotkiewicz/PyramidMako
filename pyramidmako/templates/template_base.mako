@@ -24,8 +24,8 @@
                         <a class="btn" href="/logout">Logout</a>
                         <a class="btn">${request.user.name}</a>
                     % else:
-                    <a class="btn btn-success" href='/reg'>Register</a>
-                    <a class="btn" href="/log">Login</a>
+                        <a class="btn btn-success" href='/reg'>Register</a>
+                        <a class="btn" href="/log">Login</a>
                     % endif
                 </div>
             </div>
@@ -38,7 +38,7 @@
                             </div>
                             <button class="btn_search btn btn-primary" type=submit>Search</button>
                         </form>
-                        <a class="btn" href="#">Historia wyszukiwania</a>
+                        <a class="btn" href="/his">Historia wyszukiwania</a>
                         <div class="clear"></div>
                     </div>
                 </%block>

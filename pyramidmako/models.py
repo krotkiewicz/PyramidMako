@@ -1,9 +1,5 @@
-import os
-
-from hashlib import sha1
-from sqlalchemy.exc import IntegrityError
-from pyramid.security import Allow, Everyone
-from sqlalchemy import Column, Integer, Text, Float
+import datetime
+from sqlalchemy import Column, Integer, Text, Float, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -13,49 +9,24 @@ DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 Base = declarative_base()
 
 
-class RootFactory(object):
-    __acl__ = [
-
-    ]
-    def __init__(self, request):
-        pass
-
-
 class HistoryModel(Base):
     __tablename__ = 'first_model'
     id_ = Column(Integer, primary_key=True)
-    name = Column(Text)
+    name = Column(Text, nullable=False)
     price_allegro = Column(Float)
     url_allegro = Column(Text)
     price_nokaut = Column(Float)
     url_nokaut = Column(Text)
-
-    def __init__(self, name, price_allegro, url_allegro, price_nokaut, url_nokaut):
-        self.name = name
-        self.price_allegro = price_allegro
-        self.url_allegro = url_allegro
-        self.price_nokaut = price_nokaut
-        self.url_nokaut = url_nokaut
-
-    def __repr__(self):
-        return "<User('%s', '%.2f' ,'%s','%.2f','%s')>" % (
-            self.name,
-            self.price_allegro,
-            self.url_allegro,
-            self.price_nokaut,
-            self.url_nokaut
-        )
+    user_id_ = Column(Integer, nullable=False)
+    date = Column(DateTime, default=datetime.datetime.utcnow)
+    status_allegro = Column(Text, default='')
+    status_nokaut = Column(Text, default='')
+    comparison_allegro = Column(Text, default='price')
+    comparison_nokaut = Column(Text, default='price')
 
 
 class User(Base):
     __tablename__ = 'users'
     id_ = Column(Integer, primary_key=True)
-    name = Column(Text)
-    password = Column(Text)
-
-    def __init__(self, name, password):
-        self.name = name
-        self.password = password
-
-    def __repr__(self):
-        return "<User('%s', '%s')>" % (self.name, self.password)
+    name = Column(Text, nullable=False)
+    password = Column(Text, nullable=False)

@@ -25,7 +25,3 @@ def main(argv=sys.argv):
     engine = engine_from_config(settings, 'sqlalchemy.')
     DBSession.configure(bind=engine)
     Base.metadata.create_all(engine)
-    with transaction.manager:
-        model = HistoryModel(name='', price_allegro=0, url_allegro='', price_nokaut=0, url_nokaut='')
-        model_user = User(name='', password='')
-        DBSession.add(model, model_user)

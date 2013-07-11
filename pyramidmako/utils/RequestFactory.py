@@ -11,9 +11,9 @@ class MyRequest(Request):
 
     @reify
     def user(self):
-        log = authenticated_userid(self)
-        if log:
-            return DBSession.query(User).filter(User.name == log).first()
+        id = authenticated_userid(self)
+        if id:
+            return DBSession.query(User).filter(User.id_ == id).first()
 
 config = Configurator()
 config.set_request_factory(MyRequest)

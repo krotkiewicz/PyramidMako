@@ -19,6 +19,7 @@ requires = [
     'lxml',
     'nokaut',
     'allegro',
+    'wtforms',
 ]
 
 depedency_list = [
