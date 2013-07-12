@@ -1,4 +1,5 @@
 <%inherit file="base.mako"/>
+
 <%block name='result'>
     <div class="main_box_left">
         <div class="name_product">
@@ -13,7 +14,7 @@
             <a href="${entry.url_allegro}">
                 <img src="${request.static_path('pyramidmako:static/img/logo_allegro.png')}" alt="logo_allegro"/>
             </a>
-                <div class="${entry.comparison_allegro}">
+                <div class="price${' win' if entry.price_allegro < entry.price_nokaut and entry.price_allegro else ''}">
                     %if entry.status_allegro:
                         ${entry.status_allegro}
                     %else:
@@ -25,7 +26,7 @@
             <a href="${entry.url_nokaut}">
                 <img src="${request.static_path('pyramidmako:static/img/logo_nokaut.png')}" alt="logo_nokaut"/>
                 </a>
-                <div class="${entry.comparison_nokaut}">
+                <div class="price${' win' if entry.price_allegro > entry.price_nokaut and entry.price_nokaut else ''}">
                     %if entry.status_nokaut:
                         ${entry.status_nokaut}
                     %else:

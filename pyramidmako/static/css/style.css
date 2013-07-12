@@ -353,6 +353,18 @@ body {
 .price_list {
   font-size: 18px;
   font-weight: bold;
+  text-align: center;
+}
+.date_list {
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+}
+.price_list_header {
+  font-size: 16px;
+  color: #555;
+  font-weight: bold;
+  text-align: center;
 }
 .more {
   text-align: right;

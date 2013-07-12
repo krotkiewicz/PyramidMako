@@ -8,6 +8,7 @@ from nokaut.lib import nokaut_api, NokautError
 from lib.allegro_modu1 import FindEroor, ConnectionError, result
 from FormValidate import FormReg, FormLog
 
+
 @view_config(
     route_name='home',
     renderer='pyramidmako:templates/main.mako',
@@ -50,7 +51,9 @@ def logout_view(request):
 )
 def history_view(request):
     history = DBSession.query(
-        HistoryModel).filter(HistoryModel.user_id_ == request.user.id_).order_by(HistoryModel.date.desc())
+        HistoryModel)\
+        .filter(HistoryModel.user_id_ == request.user.id_)\
+        .order_by(HistoryModel.date.desc())
     return {'history': history}
 
 
@@ -61,7 +64,9 @@ def history_view(request):
 )
 def history_popular_view(request):
     history = DBSession.query(
-        HistoryModel).filter(HistoryModel.user_id_ == request.user.id_).order_by(HistoryModel.count.desc())
+        HistoryModel)\
+        .filter(HistoryModel.user_id_ == request.user.id_)\
+        .order_by(HistoryModel.count.desc())
     history = history[:3]
     return {'history': history}
 
@@ -97,13 +102,14 @@ def reg_view(request):
     renderer='pyramidmako:templates/res.mako',
     permission='user_log',
 )
-def res_view(request):
+def res_view(request, _=None):
     name = request.GET.get('product')
     if not name:
         url = request.route_url('home')
         return HTTPFound(location=url)
     model = HistoryModel()
-    product = DBSession.query(HistoryModel).filter(name == HistoryModel.name).first()
+    product = DBSession.query(HistoryModel)\
+        .filter(name == HistoryModel.name).first()
     if product is not None:
         product.count += 1
         if (datetime.datetime.now() - product.date).days > 1:
@@ -128,18 +134,6 @@ def res_view(request):
         model.price_nokaut = w2[0]
         model.url_nokaut = w2[1]
     model.user_id_ = request.user.id_
-    if model.status_allegro and model.status_nokaut:
-        pass
-    elif model.status_allegro or model.status_nokaut:
-        if model.status_allegro:
-            model.comparison_nokaut = 'price win'
-        else:
-            model.comparison_allegro = 'price win'
-    else:
-        if model.price_allegro < model.price_nokaut:
-            model.comparison_allegro = 'price win'
-        elif model.price_allegro > model.price_nokaut:
-            model.comparison_nokaut = 'price win'
 
     DBSession.add(model)
     DBSession.flush()
