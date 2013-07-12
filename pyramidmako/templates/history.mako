@@ -1,4 +1,4 @@
-<%inherit file="template_base.mako"/>
+<%inherit file="base.mako"/>
 <%block name='result'>
 <table cellpadding="0" celllspacing="0" border="0" class="list">
     %for row in history:

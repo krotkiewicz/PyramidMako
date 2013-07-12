@@ -1,4 +1,4 @@
-<%inherit file="template_base.mako"/>
+<%inherit file="base.mako"/>
 <%block name='result'>
     <div class="main_box_left">
         <div class="name_product">
@@ -24,14 +24,14 @@
         <div class="compare_box">
             <a href="${entry.url_nokaut}">
                 <img src="${request.static_path('pyramidmako:static/img/logo_nokaut.png')}" alt="logo_nokaut"/>
+                </a>
                 <div class="${entry.comparison_nokaut}">
                     %if entry.status_nokaut:
-                        ${entry.comparison_nokaut}
+                        ${entry.status_nokaut}
                     %else:
                        Cena:  ${entry.price_nokaut} pln
                     %endif
                 </div>
-            </a>
         </div>
     </div>
 </%block>

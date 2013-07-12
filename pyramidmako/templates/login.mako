@@ -1,4 +1,4 @@
-<%inherit file="template_base.mako"/>
+<%inherit file="base.mako"/>
 <%def name="render_field(field, **kwargs)">
   <dt>${field.label}
   <dd>${field(**kwargs)}

@@ -14,15 +14,16 @@ class HistoryModel(Base):
     id_ = Column(Integer, primary_key=True)
     name = Column(Text, nullable=False)
     price_allegro = Column(Float)
-    url_allegro = Column(Text)
+    url_allegro = Column(Text, default='#')
     price_nokaut = Column(Float)
-    url_nokaut = Column(Text)
+    url_nokaut = Column(Text, default='#')
     user_id_ = Column(Integer, nullable=False)
     date = Column(DateTime, default=datetime.datetime.utcnow)
     status_allegro = Column(Text, default='')
     status_nokaut = Column(Text, default='')
     comparison_allegro = Column(Text, default='price')
     comparison_nokaut = Column(Text, default='price')
+    count = Column(Integer, default=1)
 
 
 class User(Base):

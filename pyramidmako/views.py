@@ -1,3 +1,4 @@
+import datetime
 from pyramid.httpexceptions import HTTPFound
 from pyramid.view import view_config
 from pyramid.security import remember, forget
@@ -9,7 +10,7 @@ from FormValidate import FormReg, FormLog
 
 @view_config(
     route_name='home',
-    renderer='pyramidmako:templates/mytemplate_main.mako',
+    renderer='pyramidmako:templates/main.mako',
     permission='main'
 )
 def my_view(request):
@@ -18,7 +19,7 @@ def my_view(request):
 
 @view_config(
     route_name='login',
-    renderer='pyramidmako:templates/mytemplate_login.mako',
+    renderer='pyramidmako:templates/login.mako',
 )
 def log_view(request):
     form = FormLog(request.POST)
@@ -44,18 +45,30 @@ def logout_view(request):
 
 @view_config(
     route_name='history',
-    renderer='pyramidmako:templates/mytemplate_history.mako',
+    renderer='pyramidmako:templates/history.mako',
     permission='user_log',
 )
 def history_view(request):
     history = DBSession.query(
-        HistoryModel).filter(HistoryModel.user == request.user.id_).order_by(HistoryModel.name.desc())
+        HistoryModel).filter(HistoryModel.user_id_ == request.user.id_).order_by(HistoryModel.date.desc())
+    return {'history': history}
+
+
+@view_config(
+    route_name='history_popular',
+    renderer='pyramidmako:templates/history.mako',
+    permission='user_log',
+)
+def history_popular_view(request):
+    history = DBSession.query(
+        HistoryModel).filter(HistoryModel.user_id_ == request.user.id_).order_by(HistoryModel.count.desc())
+    history = history[:3]
     return {'history': history}
 
 
 @view_config(
     route_name='register',
-    renderer='pyramidmako:templates/mytemplate_register.mako'
+    renderer='pyramidmako:templates/register.mako'
 )
 def reg_view(request):
     form = FormReg(request.POST)
@@ -81,7 +94,7 @@ def reg_view(request):
 
 @view_config(
     route_name='sec',
-    renderer='pyramidmako:templates/mytemplate_res.mako',
+    renderer='pyramidmako:templates/res.mako',
     permission='user_log',
 )
 def res_view(request):
@@ -89,15 +102,19 @@ def res_view(request):
     if not name:
         url = request.route_url('home')
         return HTTPFound(location=url)
-
-    #product = DBSession.query(HistoryModel).filter(name == HistoryModel.name).first()
-    #if product is not None:
-    #    return {'product': product}
-    model = HistoryModel(name=name)
+    model = HistoryModel()
+    product = DBSession.query(HistoryModel).filter(name == HistoryModel.name).first()
+    if product is not None:
+        product.count += 1
+        if (datetime.datetime.now() - product.date).days > 1:
+            model = product
+        else:
+            return dict(entry=product)
+    model.name = name
     try:
         w1 = result(name)
     except (FindEroor, ConnectionError) as e:
-        model.status_allegro = e
+        model.status_allegro = str(e)
     else:
         model.status_allegro = ''
         model.price_allegro = w1[0]
@@ -105,13 +122,15 @@ def res_view(request):
     try:
         w2 = nokaut_api(name, request.registry.settings.get('NokautKey'))
     except NokautError as e:
-        model.status_nokaut = e
+        model.status_nokaut = str(e)
     else:
         model.status_nokaut = ''
         model.price_nokaut = w2[0]
         model.url_nokaut = w2[1]
-
-    if model.status_allegro or model.status_nokaut:
+    model.user_id_ = request.user.id_
+    if model.status_allegro and model.status_nokaut:
+        pass
+    elif model.status_allegro or model.status_nokaut:
         if model.status_allegro:
             model.comparison_nokaut = 'price win'
         else:
@@ -121,7 +140,7 @@ def res_view(request):
             model.comparison_allegro = 'price win'
         elif model.price_allegro > model.price_nokaut:
             model.comparison_nokaut = 'price win'
-    model.user_id_ = request.user.id_
+
     DBSession.add(model)
     DBSession.flush()
     return dict(

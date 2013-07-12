@@ -44,5 +44,6 @@ def main(global_config, **settings):
     config.add_route('login', '/log')
     config.add_route('logout', '/logout')
     config.add_route('history', '/his')
+    config.add_route('history_popular', '/his_pop')
     config.scan()
     return config.make_wsgi_app()
