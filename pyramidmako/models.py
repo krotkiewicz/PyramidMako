@@ -9,19 +9,21 @@ DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 Base = declarative_base()
 
 
-class HistoryModel(Base):
-    __tablename__ = 'first_model'
+class History(Base):
+    __tablename__ = 'history'
     id_ = Column(Integer, primary_key=True)
     name = Column(Text, nullable=False)
-    price_allegro = Column(Float, default=0)
-    url_allegro = Column(Text, default='#')
-    price_nokaut = Column(Float, default=0)
-    url_nokaut = Column(Text, default='#')
     user_id_ = Column(Integer, nullable=False)
     date = Column(DateTime, default=datetime.datetime.utcnow)
-    status_allegro = Column(Text, default='')
-    status_nokaut = Column(Text, default='')
     count = Column(Integer, default=1)
+
+    status_allegro = Column(Text)
+    price_allegro = Column(Float)
+    url_allegro = Column(Text)
+
+    status_nokaut = Column(Text)
+    price_nokaut = Column(Float)
+    url_nokaut = Column(Text)
 
 
 class User(Base):

@@ -24,22 +24,22 @@
                         <a class="btn" href="/logout">Logout</a>
                         <a class="btn">${request.user.name}</a>
                     % else:
-                        <a class="btn btn-success" href='/reg'>Register</a>
-                        <a class="btn" href="/log">Login</a>
+                        <a class="btn btn-success" href='/register'>Register</a>
+                        <a class="btn" href="/login">Login</a>
                     % endif
                 </div>
             </div>
             <div class="middle">
                 <%block name="header">
                     <div class="box_search">
-                        <form action="/res">
+                        <form action="/result">
                             <div class="search">
                                 <input type="text" name = "product" value=""/>
                             </div>
                             <button class="btn_search btn btn-primary" type=submit>Search</button>
                         </form>
-                        <a class="btn" href="/his">Historia wyszukiwania</a>
-                        <a class="btn" href="/his_pop">Najpopularniejsze</a>
+                        <a class="btn" href="/history">Historia wyszukiwania</a>
+                        <a class="btn" href="/history_popular">Najpopularniejsze</a>
                         <div class="clear"></div>
                     </div>
                 </%block>
@@ -61,11 +61,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-

@@ -5,10 +5,6 @@ from .models import User, DBSession
 
 
 class FormReg(Form):
-    def validate_login(form, field):
-        log = DBSession.query(User).filter(User.name == field.data).first()
-        if log is not None:
-            raise ValidationError("This login is not available")
     login = TextField('Login', [validators.Length(min=4, max=25)])
     pass1 = PasswordField('New Password', [
         validators.Required(),
@@ -17,20 +13,26 @@ class FormReg(Form):
     ])
     pass2 = PasswordField('Repeat Password')
 
+    def validate_register(form, field):
+        login_check = DBSession.query(User).filter(User.name == field.data).first()
+        if login_check is not None:
+            raise ValidationError("This login is not available")
+
 
 class FormLog(Form):
-    def validate_login(form, field):
-        log = DBSession.query(User).filter(User.name == field.data).first()
-        if log is None:
-            raise ValidationError("Wrong login")
-
-    def validate_pass1(form, field):
-        log = DBSession.query(User).filter(User.name == form.login.data)\
-            .filter(User.password == field.data).first()
-        if log is None:
-            raise ValidationError("Wrong password")
     login = TextField('Login', [validators.Length(min=4, max=25)])
     pass1 = PasswordField('Password', [
         validators.Required(),
         validators.Length(min=6, max=35)
     ])
+
+    def validate_login(form, field):
+        login = DBSession.query(User).filter(User.name == field.data).first()
+        if login is None:
+            raise ValidationError("Wrong login or password")
+
+    def validate_pass1(form, field):
+        pas = DBSession.query(User).filter(User.name == form.login.data)\
+            .filter(User.password == field.data).first()
+        if pas is None:
+            raise ValidationError("Wrong login or password")

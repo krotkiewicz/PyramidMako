@@ -16,7 +16,7 @@
         <td class="price_list">${row.price_nokaut}</td>
         <td class="price_list">${row.count}</td>
         <td class="date_list">${row.date.ctime()}</td>
-        <td class="more"><a href="/res?product=${row.name}" class="link_more btn">Open</a></td>
+        <td class="more"><a href="/result?product=${row.name}" class="link_more btn">Open</a></td>
     </tr>
     %endfor
 </table>

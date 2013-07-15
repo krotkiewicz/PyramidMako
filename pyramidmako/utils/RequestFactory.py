@@ -6,14 +6,9 @@ from pyramidmako.models import DBSession, User
 
 
 class MyRequest(Request):
-    def __init__(self, *args, **kwargs):
-        super(Request, self).__init__(*args, **kwargs)
 
     @reify
     def user(self):
         id = authenticated_userid(self)
         if id:
             return DBSession.query(User).filter(User.id_ == id).first()
-
-config = Configurator()
-config.set_request_factory(MyRequest)

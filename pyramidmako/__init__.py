@@ -13,7 +13,7 @@ class RootFactory(object):
     __acl__ = [
         (Deny, Authenticated, 'view'),
         (Allow, Everyone, ('view', 'main')),
-        (Allow, Authenticated, ('main', 'user_log')),
+        (Allow, Authenticated, ('main', 'user_login')),
     ]
 
     def __init__(self, request):
@@ -39,11 +39,11 @@ def main(global_config, **settings):
     config.add_forbidden_view(view=logout_view)
     config.add_static_view('static', 'static', cache_max_age=3600)
     config.add_route('home', '/')
-    config.add_route('sec', '/res')
-    config.add_route('register', '/reg')
-    config.add_route('login', '/log')
+    config.add_route('result', '/result')
+    config.add_route('register', '/register')
+    config.add_route('login', '/login')
     config.add_route('logout', '/logout')
-    config.add_route('history', '/his')
-    config.add_route('history_popular', '/his_pop')
+    config.add_route('history', '/history')
+    config.add_route('history_popular', '/history_popular')
     config.scan()
     return config.make_wsgi_app()
